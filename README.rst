@@ -9,14 +9,14 @@ DjanMon is a demo showing how to use MongoDB and PyMongo from a Django
 project.
 
 As of this writing there is no support for using MongoDB as a
-*django.db* backend. There is at least `one project
+**django.db** backend. There is at least `one project
 <http://bitbucket.org/kpot/django-mongodb/>`_ trying to implement this
 type of direct support for Django, although `some people
 <http://simonwillison.net/2009/Jun/30/mongodb/#c46834>`_ disagree with
 that approach.
 
 This project is an attempt to show how MongoDB can be used from within
-a Django project even without *django.db* support
+a Django project even without **django.db** support.
 
 MongoDB and Django
 ==================
@@ -45,6 +45,9 @@ settings set to the empty string. The relevant sections of
   #    'django.contrib.sessions',
       'django.contrib.sites',
   )
+
+Also, keep in mind you won't need to use *manage.py* to sync your database
+like you normally would with Django - MongoDB is schema-free!
 
 Dependencies
 ============
