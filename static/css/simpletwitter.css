@@ -1,0 +1,119 @@
+body {
+    background-color: #99ccff;
+}
+
+#title {
+    width: 700px;
+    height: 50px;
+    color: white;
+    margin: 0 auto;
+    font-size: 40px;
+    font-family: sans-serif;
+}
+
+#main {
+    width: 700px;
+    background-color: white;
+    margin: 10px auto 50px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    font-family: sans-serif;
+}
+
+#control p {
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+#control p.link {
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+#control textarea {
+    width: 660px;
+    height: 50px;
+    margin: 0 20px;
+    font-family: sans-serif;
+}
+
+#control input.nickname {
+    width: 660px;
+    margin: 0 20px;
+    font-family: sans-serif;
+}
+
+#control input.submit {
+    width: 100px;
+    margin: 5px 20px 0 580px;
+    font-family: sans-serif;
+}
+
+#image_upload_form input {
+    margin: 0 20px;
+    width: 300px;
+    font-family: sans-serif;
+}
+
+#image_upload_form img {
+    position:relative;
+    top: 10px;
+}
+
+div.separator {
+    width: 660px;
+    height: 1px;
+    border-top: 1px dashed #cccccc;
+    margin: 30px 20px;
+}
+
+div.message {
+    width: 660px;
+    margin: 0 20px;
+}
+
+div.message div.message-thumbnail a img {
+    border: none;
+}
+
+div.message div.message-nickname {
+    font-weight: bold;
+    color: #99ccff;
+}
+
+div.message div.message-date {
+    font-style: italic;
+    font-size: 15px;
+    font-family: serif;
+    color: #999999;
+    float:right;
+}
+
+div.message div.message-date span {
+    font-style: normal;
+    font-weight:bold;
+    font-family: sans-serif;
+    color: crimson;
+}
+
+div.clear {
+    clear:both;
+}
+
+div.image_selection_div {
+}
+
+div.navigation {
+    font-size: 18px;
+    text-align:center;
+    margin-bottom: 1em;
+}
+
+div.navigation a {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #99ccff;
+}
+div#footer {
+    text-align: center;
+}

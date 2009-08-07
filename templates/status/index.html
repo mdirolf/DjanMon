@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <title>DjanMon (MongoDB + Django)</title>
+    <link type="text/css" href="/static/css/simpletwitter.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/static/javascript/jquery-1.3.2.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+      jQuery("#image_switcher").click(function() {
+      jQuery("#image_upload_form").toggle();
+      })
+
+      jQuery("#submit").click(function() {
+      jQuery("#ajax-loader").show();
+      })
+      })
+
+      function popUp(url) {
+      newwindow=window.open(url,'name','height=560,width=660');
+      if (window.focus) {
+      newwindow.focus()
+      }
+
+      return false;
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="title">
+      <p>DjanMon (MongoDB + Django)</p>
+    </div>
+    <div id="main">
+      <div id="control">
+        <p>Enter your message:</p>
+        <form action="/" method="POST" enctype="multipart/form-data">
+          <textarea rows="2" id="id_text" name="text"></textarea>
+          <p>Enter your nickname:</p>
+          <input type="text" id="id_nickname" name="nickname" class="nickname"/>
+          <p class="link" id="image_switcher">Upload image</p>
+          <div id="image_upload_form" style="display: none">
+            <input id="id_image" type="file" name="image"/>
+            <img src="/static/images/ajax-loader.gif" id="ajax-loader" style="display: none"/>
+          </div>
+          <input type="submit" class="submit" value="Update" id="submit"/>
+        </form>
+      </div>
+      <div class="separator"></div>
+      {% for message in messages %}
+      <div class="message">
+        <table border="0" width="660px">
+          <tr>
+            <td width="90px">
+              {% if message.image %}
+              <div class="message-thumbnail">
+                <a href="/image/{{message.image}}" onclick="return popUp(\"/image/{{message.image}}\")">
+                  <img src="/image/thumb/{{message.image}}" alt=""/>
+                </a>
+              </div>
+              {% endif %}
+            </td>
+            <td valign="top">
+              <div class="message-nickname">{{message.nickname}}</div>
+              <div class="message-text">{{message.text}}</div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">
+              <div class="message-date">
+                Posted {{message.date|timesince}} ago
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="separator"></div>
+      {% endfor %}
+      <div class="navigation">
+        {% ifnotequal previous "hack" %}
+        <a href="/page/{{previous}}">&lt; Back</a>
+        {% endifnotequal %}
+        {% ifnotequal next "hack" %}
+        <a href="/page/{{next}}">Next &gt;</a>
+        {% endifnotequal %}
+      </div>
+      <div id="footer">
+        <img src="/static/images/poweredby.png" alt="powered by mongodb"/>
+      </div>
+  </body>
+</html>
