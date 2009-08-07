@@ -49,7 +49,7 @@ def index(request, page=0):
             # Only accept appropriate file extensions
             if not filename.endswith((".jpg", ".JPG", ".jpeg", ".JPEG", ".png",
                                       ".PNG", ".bmp", ".BMP", ".gif", ".GIF")):
-                raise web.seeother("/")
+                return HttpResponseRedirect("/")
 
             message["image"] = filename
 
