@@ -14,6 +14,8 @@ import gridfs
 
 db = Connection().sms
 fs = gridfs.GridFS(db)
+thumbs = gridfs.GridFS(db, collection='thumb')
+
 page_size = 10
 
 def _generate_filename(name):
@@ -28,11 +30,15 @@ def _generate_filename(name):
     filename = ".".join(filename)
 
     # Try again if this filename already exists
-    try:
-        fs.open(filename, "r")
-        return _generate_filename(name)
-    except IOError:
-        return filename
+    #try:
+    #    fs.open(filename, "r")
+    #    return _generate_filename(name)
+    #except IOError:
+    #    return filename
+    if fs.exists(filename=filename):
+    	return _generate_filename(name)
+    else:
+    	return filename
 
 def index(request, page=0):
     if request.method == 'POST':
@@ -45,6 +51,7 @@ def index(request, page=0):
 
         if "image" in request.FILES:
             filename = _generate_filename(request.FILES['image'].name)
+            mimetype = request.FILES['image'].content_type
 
             # Only accept appropriate file extensions
             if not filename.endswith((".jpg", ".JPG", ".jpeg", ".JPEG", ".png",
@@ -55,18 +62,14 @@ def index(request, page=0):
 
             # Save fullsize image
             image = request.FILES['image'].read()
-            full = fs.open(filename, "w")
-            full.write(image)
-            full.close()
+            fs.put(image, content_type=mimetype, filename=filename)
 
             # Save thumbnail
-            thumb = fs.open(filename, "w", "thumb")
             image = Image.open(StringIO.StringIO(image))
             image.thumbnail((80, 60), Image.ANTIALIAS)
             data = StringIO.StringIO()
             image.save(data, image.format)
-            thumb.write(data.getvalue())
-            thumb.close()
+            thumbs.put(data.getvalue(), content_type=mimetype, filename=filename)
             data.close()
 
         db.messages.insert(message)
@@ -89,10 +92,11 @@ def index(request, page=0):
 
 def file(request, collection_or_filename, filename=None):
     if filename is not None:
-        f = fs.open(filename, "r", collection_or_filename)
+        if collection_or_filename == "thumb":
+            data = thumbs.get_last_version(filename)
+        else:
+            data = fs.get_last_version(filename)
     else:
-        f = fs.open(collection_or_filename, "r")
-    data = f.read()
-    mimetype = f.content_type or mimetypes.guess_type(filename or collection_or_filename)
-    f.close()
+        data = fs.get_last_version(collection_or_filename)
+    mimetype = data.content_type or mimetypes.guess_type(filename or collection_or_filename)
     return HttpResponse(data, mimetype=mimetype)
