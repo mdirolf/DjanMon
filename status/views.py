@@ -30,11 +30,6 @@ def _generate_filename(name):
     filename = ".".join(filename)
 
     # Try again if this filename already exists
-    #try:
-    #    fs.open(filename, "r")
-    #    return _generate_filename(name)
-    #except IOError:
-    #    return filename
     if fs.exists(filename=filename):
     	return _generate_filename(name)
     else:
@@ -100,3 +95,4 @@ def file(request, collection_or_filename, filename=None):
         data = fs.get_last_version(collection_or_filename)
     mimetype = data.content_type or mimetypes.guess_type(filename or collection_or_filename)
     return HttpResponse(data, mimetype=mimetype)
+
